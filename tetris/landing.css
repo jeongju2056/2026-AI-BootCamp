@@ -1,0 +1,315 @@
+/* landing.css — 랜딩 페이지(index.html) 전용. 공통 토큰·버튼은 base.css */
+
+.landing-page .top-app-bar {
+  max-width: 1040px;
+  margin: 0 auto;
+}
+
+.container {
+  width: 100%;
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+/* ===== 히어로 ===== */
+.hero {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  align-items: center;
+  gap: 32px;
+  padding: 32px 0 48px;
+}
+.eyebrow {
+  margin: 0 0 12px;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 500;
+  letter-spacing: 0.1px;
+  color: var(--md-sys-color-primary);
+}
+.hero h1 {
+  margin: 0 0 16px;
+  font-size: 57px;
+  line-height: 64px;
+  font-weight: 400;
+  letter-spacing: -0.25px;
+}
+.hero-lead {
+  margin: 0 0 32px;
+  max-width: 34em;
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--md-sys-color-on-surface-variant);
+}
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+.best-score {
+  margin: 16px 0 0;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--md-sys-color-on-surface-variant);
+}
+.best-score[hidden] { display: none; }
+.best-score strong {
+  color: var(--md-sys-color-on-surface);
+  font-variant-numeric: tabular-nums;
+}
+
+/* 장식 그림: 쌓인 블록 */
+.hero-art {
+  justify-self: center;
+  width: min(100%, 320px);
+  padding: 20px;
+  border-radius: var(--md-shape-xl);
+  background: var(--md-sys-color-surface-container);
+  box-shadow: var(--md-elevation-1);
+}
+.hero-art svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.b-i { fill: var(--block-i); }
+.b-o { fill: var(--block-o); }
+.b-t { fill: var(--block-t); }
+.b-s { fill: var(--block-s); }
+.b-z { fill: var(--block-z); }
+.b-j { fill: var(--block-j); }
+.b-l { fill: var(--block-l); }
+.b-ghost {
+  fill: none;
+  stroke: var(--block-t);
+  stroke-opacity: 0.6;
+  stroke-width: 1.5;
+}
+
+/* ===== 섹션 공통 ===== */
+.section { padding: 32px 0; }
+.section h2 {
+  margin: 0 0 8px;
+  font-size: 28px;
+  line-height: 36px;
+  font-weight: 400;
+}
+.section-lead {
+  margin: 0 0 24px;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--md-sys-color-on-surface-variant);
+}
+
+/* 3단계 카드 */
+.steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  counter-reset: step;
+}
+.step {
+  padding: 20px;
+  border-radius: var(--md-shape-md);
+  background: var(--md-sys-color-surface-container-low);
+}
+.step-num {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  margin-bottom: 16px;
+  border-radius: var(--md-shape-full);
+  background: var(--md-sys-color-primary-container);
+  color: var(--md-sys-color-on-primary-container);
+  font-weight: 500;
+}
+.step h3,
+.control-card h3,
+.feature h3 {
+  margin: 0 0 8px;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 500;
+}
+.step p,
+.feature p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--md-sys-color-on-surface-variant);
+}
+
+/* 조작법: 키보드 / 모바일 두 카드 */
+.controls {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+.control-card {
+  padding: 20px;
+  border-radius: var(--md-shape-md);
+  background: var(--md-sys-color-surface-container-low);
+}
+.control-card h3 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.control-card h3 .icon { color: var(--md-sys-color-primary); }
+.control-list {
+  margin: 12px 0 0;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 10px 16px;
+  align-items: center;
+  font-size: 14px;
+  line-height: 20px;
+}
+.control-list dt {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.control-list dd {
+  margin: 0;
+  color: var(--md-sys-color-on-surface-variant);
+}
+.gesture {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: var(--md-shape-sm);
+  background: var(--md-sys-color-secondary-container);
+  color: var(--md-sys-color-on-secondary-container);
+  font-size: 12px;
+  line-height: 16px;
+  white-space: nowrap;
+}
+
+/* 점수 표 */
+.table-wrap {
+  overflow-x: auto;
+  border-radius: var(--md-shape-md);
+  background: var(--md-sys-color-surface-container-low);
+}
+.score-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  line-height: 20px;
+}
+.score-table th,
+.score-table td {
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 1px solid var(--md-sys-color-outline-variant);
+}
+.score-table tr:last-child td { border-bottom: 0; }
+.score-table th {
+  font-weight: 500;
+  color: var(--md-sys-color-on-surface-variant);
+}
+.score-table td:last-child { font-variant-numeric: tabular-nums; }
+
+.rules {
+  margin: 16px 0 0;
+  padding-left: 20px;
+  font-size: 14px;
+  line-height: 22px;
+  color: var(--md-sys-color-on-surface-variant);
+}
+
+/* 기능 카드 */
+.features {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+.feature {
+  padding: 20px;
+  border-radius: var(--md-shape-md);
+  background: var(--md-sys-color-surface-container-low);
+}
+.feature .icon {
+  margin-bottom: 12px;
+  color: var(--md-sys-color-tertiary);
+}
+
+/* 마지막 플레이 유도 */
+.cta {
+  margin: 32px 0 48px;
+  padding: 32px;
+  border-radius: var(--md-shape-xl);
+  background: var(--md-sys-color-primary-container);
+  color: var(--md-sys-color-on-primary-container);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.cta h2 {
+  margin: 0;
+  font-size: 24px;
+  line-height: 32px;
+  font-weight: 400;
+}
+
+.footer {
+  padding: 24px 0 calc(32px + env(safe-area-inset-bottom));
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--md-sys-color-on-surface-variant);
+  text-align: center;
+}
+
+/* ===== 반응형 ===== */
+@media (max-width: 900px) {
+  .features { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 720px) {
+  .hero {
+    grid-template-columns: 1fr;
+    padding: 16px 0 32px;
+    gap: 24px;
+  }
+  .hero h1 {
+    font-size: 40px;
+    line-height: 48px;
+  }
+  .hero-art {
+    order: -1;
+    width: min(100%, 220px);
+    padding: 14px;
+  }
+  .steps,
+  .controls { grid-template-columns: 1fr; }
+  .section { padding: 24px 0; }
+  .section h2 {
+    font-size: 24px;
+    line-height: 32px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero h1 {
+    font-size: 34px;
+    line-height: 42px;
+  }
+  .hero-actions .btn { flex: 1 1 100%; }
+  .features { grid-template-columns: 1fr; }
+  .cta {
+    padding: 24px;
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+  }
+  .score-table th,
+  .score-table td { padding: 10px 12px; }
+}

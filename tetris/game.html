@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <!-- viewport-fit=cover: 노치가 있는 휴대폰에서 화면 끝까지 쓰고, 안전 영역은 CSS env()로 비켜 간다 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#141218">
+  <title>Block Stacker — 게임</title>
+  <!-- Roboto: 머티리얼 기본 글꼴. 인터넷이 없으면 시스템 글꼴로 바뀌고 게임은 그대로 동작한다 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap">
+  <link rel="stylesheet" href="base.css">
+  <link rel="stylesheet" href="game.css">
+  <!-- defer: HTML을 다 읽은 뒤 적힌 순서대로 실행 → bgm.js(BGM 객체)가 먼저, tetris.js가 그다음 -->
+  <script src="bgm.js" defer></script>
+  <script src="tetris.js" defer></script>
+</head>
+<body class="game-page">
+  <!-- 아이콘 모음(Material Icons, Apache-2.0). <use href="#i-이름">으로 꺼내 쓴다 -->
+  <svg class="sprite" aria-hidden="true" focusable="false">
+    <symbol id="i-back" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></symbol>
+    <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></symbol>
+    <symbol id="i-pause" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></symbol>
+    <symbol id="i-music" viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></symbol>
+    <symbol id="i-music-off" viewBox="0 0 24 24"><path d="M4.27 3L3 4.27l9 9v.28c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4v-1.73L19.73 21 21 19.73 4.27 3zM14 7h4V3h-6v5.18l2 2z"/></symbol>
+    <symbol id="i-left" viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></symbol>
+    <symbol id="i-right" viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></symbol>
+    <symbol id="i-down" viewBox="0 0 24 24"><path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"/></symbol>
+    <symbol id="i-drop" viewBox="0 0 24 24"><path d="M16 13h-3V3h-2v10H8l4 4 4-4zM4 19v2h16v-2H4z"/></symbol>
+    <symbol id="i-hold" viewBox="0 0 24 24"><path d="M6.99 11L3 15l3.99 4v-3H14v-2H6.99v-3zM21 9l-3.99-4v3H10v2h7.01v3L21 9z"/></symbol>
+    <symbol id="i-rotate-cw" viewBox="0 0 24 24"><path d="M15.55 5.55L11 1v3.07C7.06 4.56 4 7.92 4 12s3.05 7.44 7 7.93v-2.02c-2.84-.48-5-2.94-5-5.91s2.16-5.43 5-5.91V10l4.55-4.45zM19.93 11c-.17-1.39-.72-2.73-1.62-3.89l-1.42 1.42c.54.75.88 1.6 1.02 2.47h2.02zM13 17.9v2.02c1.39-.17 2.74-.71 3.9-1.61l-1.44-1.44c-.75.54-1.59.89-2.46 1.03zm3.89-2.42l1.42 1.41c.9-1.16 1.45-2.5 1.62-3.89h-2.02c-.14.87-.48 1.72-1.02 2.48z"/></symbol>
+    <symbol id="i-rotate-ccw" viewBox="0 0 24 24"><path d="M7.11 8.53L5.7 7.11C4.8 8.27 4.24 9.61 4.07 11h2.02c.14-.87.49-1.72 1.02-2.47zM6.09 13H4.07c.17 1.39.72 2.73 1.62 3.89l1.41-1.42c-.52-.75-.87-1.59-1.01-2.47zm1.01 5.32c1.16.9 2.51 1.44 3.9 1.61V17.9c-.87-.15-1.71-.49-2.46-1.03L7.1 18.32zM13 4.07V1L8.45 5.55 13 10V6.09c2.84.48 5 2.94 5 5.91s-2.16 5.43-5 5.91v2.02c3.95-.49 7-3.85 7-7.93s-3.05-7.44-7-7.93z"/></symbol>
+  </svg>
+
+  <!-- 상단 앱 바 -->
+  <header class="top-app-bar">
+    <div class="brand">
+      <a class="icon-btn" href="index.html" aria-label="처음 화면으로" title="처음 화면으로">
+        <svg class="icon"><use href="#i-back"/></svg>
+      </a>
+      <span class="brand-name">Block Stacker</span>
+    </div>
+    <div class="actions">
+      <button id="bgm-btn" class="icon-btn" type="button" aria-pressed="true" aria-label="배경음악 끄기" title="배경음악 (M)">
+        <svg class="icon"><use id="bgm-icon" href="#i-music"/></svg>
+      </button>
+      <button id="pause-btn" class="icon-btn" type="button" aria-label="게임 시작" title="시작 · 일시정지 (P)">
+        <svg class="icon"><use id="pause-icon" href="#i-play"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <!-- 왼쪽: 홀드 + 조작법 -->
+    <aside class="side">
+      <section class="card card-hold">
+        <h2 class="card-label">홀드</h2>
+        <canvas id="hold" class="preview" aria-label="홀드한 블록"></canvas>
+      </section>
+      <section class="card card-help">
+        <h2 class="card-label">조작법</h2>
+        <ul class="keys">
+          <li><span class="keycaps"><kbd>←</kbd><kbd>→</kbd></span><span>이동</span></li>
+          <li><span class="keycaps"><kbd>↓</kbd></span><span>소프트 드롭</span></li>
+          <li><span class="keycaps"><kbd>↑</kbd><kbd>X</kbd></span><span>회전</span></li>
+          <li><span class="keycaps"><kbd>Z</kbd></span><span>역회전</span></li>
+          <li><span class="keycaps"><kbd>Space</kbd></span><span>하드 드롭</span></li>
+          <li><span class="keycaps"><kbd>C</kbd><kbd>Shift</kbd></span><span>홀드</span></li>
+          <li><span class="keycaps"><kbd>P</kbd><kbd>Esc</kbd></span><span>일시정지</span></li>
+          <li><span class="keycaps"><kbd>M</kbd></span><span>음악 켬/끔</span></li>
+          <li><span class="keycaps"><kbd>B</kbd></span><span>곡 바꾸기*</span></li>
+        </ul>
+        <p class="picker-hint">* 일시정지 중에</p>
+      </section>
+    </aside>
+
+    <!-- 가운데: 게임 보드 + 다이얼로그 -->
+    <section class="board-card">
+      <canvas id="board" aria-label="게임 보드"></canvas>
+      <div id="overlay" class="scrim">
+        <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="overlay-title" aria-describedby="overlay-text">
+          <h2 id="overlay-title" class="dialog-title"></h2>
+          <p id="overlay-text" class="dialog-text"></p>
+
+          <!-- 배경음악 선택: 시작 전·일시정지 중에만 보인다. 버튼은 bgm.js의 곡 목록으로 tetris.js가 만든다 -->
+          <div id="track-picker" class="track-picker" hidden>
+            <p class="picker-label" id="track-picker-label">배경음악</p>
+            <div id="track-list" class="segmented" role="radiogroup" aria-labelledby="track-picker-label"></div>
+            <p id="track-desc" class="picker-hint"></p>
+          </div>
+
+          <div class="dialog-actions">
+            <a id="overlay-home" class="btn btn-outlined" href="index.html" hidden>처음 화면</a>
+            <button id="overlay-btn" class="btn btn-filled" type="button"></button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 오른쪽: 다음 블록 + 점수 -->
+    <aside class="side">
+      <section class="card card-next">
+        <h2 class="card-label">다음</h2>
+        <canvas id="next" class="preview" aria-label="다음 블록"></canvas>
+      </section>
+      <section class="card card-stats stats">
+        <div class="stat"><span class="stat-label">점수</span><span id="score" class="stat-value">0</span></div>
+        <div class="stat"><span class="stat-label">최고</span><span id="best" class="stat-value">0</span></div>
+        <div class="stat"><span class="stat-label">레벨</span><span id="level" class="stat-value">1</span></div>
+        <div class="stat"><span class="stat-label">줄</span><span id="lines" class="stat-value">0</span></div>
+      </section>
+    </aside>
+  </main>
+
+  <!-- 터치 기기용: 보드 스와이프 안내 + 버튼 -->
+  <p class="gesture-hint">보드에서 탭 = 회전 · 좌우로 밀기 = 이동 · 아래로 밀기 = 내리기 · 빠르게 튕기기 = 하드 드롭</p>
+  <nav class="touch" aria-label="터치 조작">
+    <button class="touch-btn" type="button" tabindex="-1" data-action="hold" aria-label="홀드"><svg class="icon"><use href="#i-hold"/></svg></button>
+    <button class="touch-btn" type="button" tabindex="-1" data-action="rotateCCW" aria-label="역회전"><svg class="icon"><use href="#i-rotate-ccw"/></svg></button>
+    <button class="touch-btn" type="button" tabindex="-1" data-action="rotateCW" aria-label="회전"><svg class="icon"><use href="#i-rotate-cw"/></svg></button>
+    <button class="touch-btn" type="button" tabindex="-1" data-action="primary" aria-label="시작 또는 일시정지"><svg class="icon"><use id="touch-pause-icon" href="#i-play"/></svg></button>
+    <button class="touch-btn" type="button" tabindex="-1" data-action="left" aria-label="왼쪽"><svg class="icon"><use href="#i-left"/></svg></button>
+    <button class="touch-btn" type="button" tabindex="-1" data-action="down" aria-label="아래"><svg class="icon"><use href="#i-down"/></svg></button>
+    <button class="touch-btn" type="button" tabindex="-1" data-action="right" aria-label="오른쪽"><svg class="icon"><use href="#i-right"/></svg></button>
+    <button class="touch-btn touch-btn-primary" type="button" tabindex="-1" data-action="hardDrop" aria-label="하드 드롭"><svg class="icon"><use href="#i-drop"/></svg></button>
+  </nav>
+
+  <!-- 스낵바: 짧은 알림(배경음악, 레벨 업) -->
+  <div id="snackbar" class="snackbar" role="status" aria-live="polite"></div>
+</body>
+</html>

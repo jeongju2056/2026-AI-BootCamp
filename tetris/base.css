@@ -1,0 +1,281 @@
+/*
+ * base.css — 랜딩(index.html)과 게임(game.html)이 함께 쓰는 공통 스타일
+ *
+ * Material Design 3 (M3) 스타일을 라이브러리 없이 CSS로 직접 적용한다.
+ * - 색: M3 기본 다크 색 체계(baseline dark scheme)의 이름과 값을 그대로 쓴다(--md-sys-color-*)
+ * - 모양: 모서리 둥글기 단계(4·8·12·16·28px), 그림자(elevation) 단계
+ * - 상호작용: 버튼 위에 반투명 막(state layer)을 깔아 hover 8%, focus·pressed 10%로 진하게 한다
+ * 색이나 둥글기는 :root 변수만 바꾸면 두 화면 모두에 반영된다(tetris.js도 보드 배경색을 여기서 읽어 간다).
+ *
+ * 화면별 스타일은 landing.css / game.css에 둔다. (Java로 치면 공통 부모 클래스 + 화면별 하위 클래스)
+ */
+:root {
+  --md-sys-color-primary: #d0bcff;
+  --md-sys-color-on-primary: #381e72;
+  --md-sys-color-primary-container: #4f378b;
+  --md-sys-color-on-primary-container: #eaddff;
+  --md-sys-color-secondary-container: #4a4458;
+  --md-sys-color-on-secondary-container: #e8def8;
+  --md-sys-color-tertiary: #efb8c8;
+  --md-sys-color-surface: #141218;
+  --md-sys-color-surface-container-lowest: #0f0d13;
+  --md-sys-color-surface-container-low: #1d1b20;
+  --md-sys-color-surface-container: #211f26;
+  --md-sys-color-surface-container-high: #2b2930;
+  --md-sys-color-surface-container-highest: #36343b;
+  --md-sys-color-on-surface: #e6e0e9;
+  --md-sys-color-on-surface-variant: #cac4d0;
+  --md-sys-color-outline: #938f99;
+  --md-sys-color-outline-variant: #49454f;
+  --md-sys-color-inverse-surface: #e6e0e9;
+  --md-sys-color-inverse-on-surface: #322f35;
+
+  --md-shape-xs: 4px;
+  --md-shape-sm: 8px;
+  --md-shape-md: 12px;
+  --md-shape-lg: 16px;
+  --md-shape-xl: 28px;
+  --md-shape-full: 999px;
+
+  --md-elevation-1: 0 1px 2px rgba(0, 0, 0, 0.3), 0 1px 3px 1px rgba(0, 0, 0, 0.15);
+  --md-elevation-3: 0 1px 3px rgba(0, 0, 0, 0.3), 0 4px 8px 3px rgba(0, 0, 0, 0.15);
+
+  --md-motion-standard: cubic-bezier(0.2, 0, 0, 1);
+  --md-font: "Roboto", system-ui, -apple-system, "Segoe UI", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+
+  /* 블록 색 (tetris.js와 같은 값. 랜딩의 장식 그림에 쓴다) */
+  --block-i: #4dd0e1;
+  --block-o: #ffd54f;
+  --block-t: #ba68c8;
+  --block-s: #81c784;
+  --block-z: #e57373;
+  --block-j: #64b5f6;
+  --block-l: #ffb74d;
+
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  background: var(--md-sys-color-surface);
+  color: var(--md-sys-color-on-surface);
+  font-family: var(--md-font);
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: var(--md-sys-color-primary); }
+
+.sprite {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+.icon {
+  width: 24px;
+  height: 24px;
+  fill: currentColor;
+  display: block;
+  flex: none;
+}
+
+/* ===== 상태 막(state layer): 버튼 공통 ===== */
+.icon-btn,
+.btn,
+.touch-btn,
+.segment {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  border: 0;
+  font: inherit;
+  cursor: pointer;
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.icon-btn::before,
+.btn::before,
+.touch-btn::before,
+.segment::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: currentColor;
+  opacity: 0;
+  transition: opacity 150ms var(--md-motion-standard);
+  pointer-events: none;
+}
+@media (hover: hover) {
+  .icon-btn:hover::before,
+  .btn:hover::before,
+  .touch-btn:hover::before,
+  .segment:hover::before { opacity: 0.08; }
+}
+.icon-btn:focus-visible::before,
+.btn:focus-visible::before,
+.segment:focus-visible::before,
+.icon-btn:active::before,
+.btn:active::before,
+.touch-btn:active::before,
+.segment:active::before { opacity: 0.1; }
+.icon-btn:focus-visible,
+.btn:focus-visible,
+.segment:focus-visible {
+  outline: 3px solid var(--md-sys-color-primary);
+  outline-offset: 2px;
+}
+
+/* ===== 버튼 ===== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 40px;
+  padding: 0 24px;
+  border-radius: var(--md-shape-full);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.1px;
+}
+.btn .icon {
+  width: 18px;
+  height: 18px;
+  margin-left: -8px;
+}
+.btn-filled {
+  background: var(--md-sys-color-primary);
+  color: var(--md-sys-color-on-primary);
+}
+.btn-tonal {
+  background: var(--md-sys-color-secondary-container);
+  color: var(--md-sys-color-on-secondary-container);
+}
+.btn-outlined {
+  background: transparent;
+  color: var(--md-sys-color-primary);
+  box-shadow: inset 0 0 0 1px var(--md-sys-color-outline);
+}
+.btn-large {
+  height: 56px;
+  padding: 0 32px;
+  font-size: 16px;
+  border-radius: var(--md-shape-lg);
+}
+.btn-large .icon {
+  width: 24px;
+  height: 24px;
+}
+
+.icon-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--md-shape-full);
+  display: grid;
+  place-items: center;
+  background: transparent;
+  color: var(--md-sys-color-on-surface-variant);
+}
+.icon-btn[aria-pressed="true"] {
+  background: var(--md-sys-color-secondary-container);
+  color: var(--md-sys-color-on-secondary-container);
+}
+
+/* ===== 상단 앱 바 ===== */
+.top-app-bar {
+  width: 100%;
+  height: 64px;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: inherit;
+  text-decoration: none;
+  min-width: 0;
+}
+.brand-mark {
+  width: 28px;
+  height: 28px;
+  fill: var(--md-sys-color-primary);
+  flex: none;
+}
+.brand-name {
+  margin: 0;
+  font-size: 22px;
+  line-height: 28px;
+  font-weight: 400;
+  white-space: nowrap;
+}
+.actions {
+  display: flex;
+  gap: 4px;
+}
+
+/* ===== 카드 ===== */
+.card {
+  background: var(--md-sys-color-surface-container-low);
+  border-radius: var(--md-shape-md);
+  padding: 12px;
+}
+
+kbd {
+  display: inline-block;
+  min-width: 24px;
+  padding: 2px 6px;
+  border: 1px solid var(--md-sys-color-outline-variant);
+  border-radius: var(--md-shape-sm);
+  color: var(--md-sys-color-on-surface);
+  font-family: inherit;
+  font-size: 12px;
+  line-height: 16px;
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* ===== 스낵바 ===== */
+.snackbar {
+  position: fixed;
+  left: 50%;
+  bottom: calc(24px + env(safe-area-inset-bottom));
+  min-width: 200px;
+  max-width: calc(100vw - 32px);
+  padding: 14px 16px;
+  border-radius: var(--md-shape-xs);
+  background: var(--md-sys-color-inverse-surface);
+  color: var(--md-sys-color-inverse-on-surface);
+  box-shadow: var(--md-elevation-3);
+  font-size: 14px;
+  line-height: 20px;
+  text-align: center;
+  opacity: 0;
+  transform: translate(-50%, 16px);
+  transition: opacity 200ms var(--md-motion-standard), transform 200ms var(--md-motion-standard);
+  pointer-events: none;
+  z-index: 10;
+}
+.snackbar.show {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+@media (max-width: 600px) {
+  .top-app-bar { height: 56px; }
+  .brand-name { font-size: 18px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before { transition: none !important; animation: none !important; }
+}

@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#141218">
+  <meta name="description" content="HTML · CSS · JS만으로 만든 브라우저 블록 낙하 퍼즐. 설치 없이 바로 플레이하세요.">
+  <title>Block Stacker</title>
+  <!-- Roboto: 머티리얼 기본 글꼴. 인터넷이 없으면 시스템 글꼴로 바뀐다 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap">
+  <link rel="stylesheet" href="base.css">
+  <link rel="stylesheet" href="landing.css">
+</head>
+<body class="landing-page">
+  <!-- 아이콘 모음(Material Icons, Apache-2.0) -->
+  <svg class="sprite" aria-hidden="true" focusable="false">
+    <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></symbol>
+    <symbol id="i-keyboard" viewBox="0 0 24 24"><path d="M20 5H4c-1.1 0-1.99.9-1.99 2L2 17c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm-9 3h2v2h-2V8zm0 3h2v2h-2v-2zM8 8h2v2H8V8zm0 3h2v2H8v-2zm-1 2H5v-2h2v2zm0-3H5V8h2v2zm9 7H8v-2h8v2zm0-4h-2v-2h2v2zm0-3h-2V8h2v2zm3 3h-2v-2h2v2zm0-3h-2V8h2v2z"/></symbol>
+    <symbol id="i-phone" viewBox="0 0 24 24"><path d="M17 1.01L7 1c-1.1 0-1.99.9-1.99 2v18c0 1.1.89 2 1.99 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14z"/></symbol>
+    <symbol id="i-eye" viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></symbol>
+    <symbol id="i-hold" viewBox="0 0 24 24"><path d="M6.99 11L3 15l3.99 4v-3H14v-2H6.99v-3zM21 9l-3.99-4v3H10v2h7.01v3L21 9z"/></symbol>
+    <symbol id="i-music" viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></symbol>
+    <symbol id="i-trophy" viewBox="0 0 24 24"><path d="M19 5h-2V3H7v2H5c-1.1 0-2 .9-2 2v1c0 2.55 1.92 4.63 4.39 4.94.63 1.5 1.98 2.63 3.61 2.96V19H7v2h10v-2h-4v-3.1c1.63-.33 2.98-1.46 3.61-2.96C19.08 12.63 21 10.55 21 8V7c0-1.1-.9-2-2-2zM5 8V7h2v3.82C5.84 10.4 5 9.3 5 8zm14 0c0 1.3-.84 2.4-2 2.82V7h2v1z"/></symbol>
+  </svg>
+
+  <header class="top-app-bar">
+    <a class="brand" href="index.html">
+      <svg class="brand-mark" viewBox="0 0 24 24" aria-hidden="true">
+        <rect x="2" y="9" width="6.5" height="6.5" rx="1.5"/>
+        <rect x="8.75" y="9" width="6.5" height="6.5" rx="1.5"/>
+        <rect x="15.5" y="9" width="6.5" height="6.5" rx="1.5"/>
+        <rect x="8.75" y="2.25" width="6.5" height="6.5" rx="1.5"/>
+      </svg>
+      <span class="brand-name">Block Stacker</span>
+    </a>
+    <a class="btn btn-tonal" href="game.html?autostart">
+      <svg class="icon" aria-hidden="true"><use href="#i-play"/></svg>플레이
+    </a>
+  </header>
+
+  <main class="container">
+    <!-- 히어로 -->
+    <section class="hero">
+      <div>
+        <p class="eyebrow">HTML · CSS · JS 블록 낙하 퍼즐</p>
+        <h1>Block Stacker</h1>
+        <p class="hero-lead">
+          위에서 떨어지는 블록을 돌리고 옮겨서 가로줄을 빈틈없이 채우세요.
+          채운 줄은 사라지고 점수가 오릅니다. 설치 없이 PC와 휴대폰 브라우저에서 바로 플레이할 수 있습니다.
+        </p>
+        <div class="hero-actions">
+          <!-- ?autostart: 게임 화면을 열자마자 바로 시작 -->
+          <a class="btn btn-filled btn-large" href="game.html?autostart">
+            <svg class="icon" aria-hidden="true"><use href="#i-play"/></svg>플레이
+          </a>
+          <a class="btn btn-outlined btn-large" href="#how">플레이 방법</a>
+        </div>
+        <p id="best-score" class="best-score" hidden>내 최고 점수 <strong id="best-score-value">0</strong></p>
+      </div>
+
+      <div class="hero-art" aria-hidden="true">
+        <svg viewBox="0 0 176 220">
+          <rect class="b-t" x="45" y="23" width="20" height="20" rx="4"/>
+          <rect class="b-t" x="67" y="23" width="20" height="20" rx="4"/>
+          <rect class="b-t" x="89" y="23" width="20" height="20" rx="4"/>
+          <rect class="b-t" x="67" y="45" width="20" height="20" rx="4"/>
+          <rect class="b-ghost" x="46" y="112" width="18" height="18" rx="4"/>
+          <rect class="b-ghost" x="68" y="112" width="18" height="18" rx="4"/>
+          <rect class="b-ghost" x="90" y="112" width="18" height="18" rx="4"/>
+          <rect class="b-ghost" x="68" y="134" width="18" height="18" rx="4"/>
+          <rect class="b-l" x="1" y="133" width="20" height="20" rx="4"/>
+          <rect class="b-j" x="155" y="133" width="20" height="20" rx="4"/>
+          <rect class="b-l" x="1" y="155" width="20" height="20" rx="4"/>
+          <rect class="b-s" x="67" y="155" width="20" height="20" rx="4"/>
+          <rect class="b-s" x="89" y="155" width="20" height="20" rx="4"/>
+          <rect class="b-j" x="155" y="155" width="20" height="20" rx="4"/>
+          <rect class="b-l" x="1" y="177" width="20" height="20" rx="4"/>
+          <rect class="b-l" x="23" y="177" width="20" height="20" rx="4"/>
+          <rect class="b-s" x="45" y="177" width="20" height="20" rx="4"/>
+          <rect class="b-s" x="67" y="177" width="20" height="20" rx="4"/>
+          <rect class="b-z" x="111" y="177" width="20" height="20" rx="4"/>
+          <rect class="b-j" x="133" y="177" width="20" height="20" rx="4"/>
+          <rect class="b-j" x="155" y="177" width="20" height="20" rx="4"/>
+          <rect class="b-i" x="1" y="199" width="20" height="20" rx="4"/>
+          <rect class="b-i" x="23" y="199" width="20" height="20" rx="4"/>
+          <rect class="b-i" x="45" y="199" width="20" height="20" rx="4"/>
+          <rect class="b-i" x="67" y="199" width="20" height="20" rx="4"/>
+          <rect class="b-z" x="89" y="199" width="20" height="20" rx="4"/>
+          <rect class="b-z" x="111" y="199" width="20" height="20" rx="4"/>
+          <rect class="b-o" x="133" y="199" width="20" height="20" rx="4"/>
+          <rect class="b-o" x="155" y="199" width="20" height="20" rx="4"/>
+        </svg>
+      </div>
+    </section>
+
+    <!-- 플레이 방법 -->
+    <section id="how" class="section">
+      <h2>플레이 방법</h2>
+      <p class="section-lead">규칙은 세 가지뿐입니다.</p>
+      <ol class="steps">
+        <li class="step">
+          <span class="step-num">1</span>
+          <h3>블록을 움직여 쌓기</h3>
+          <p>7가지 모양의 블록이 하나씩 떨어집니다. 좌우로 옮기고 돌려서 원하는 자리에 내려놓으세요. 반투명 윤곽(고스트)이 떨어질 자리를 미리 보여 줍니다.</p>
+        </li>
+        <li class="step">
+          <span class="step-num">2</span>
+          <h3>가로줄을 채워 지우기</h3>
+          <p>가로 한 줄을 빈칸 없이 채우면 그 줄이 사라지고 점수를 얻습니다. 한 번에 여러 줄을 지울수록 점수가 크게 오릅니다.</p>
+        </li>
+        <li class="step">
+          <span class="step-num">3</span>
+          <h3>꼭대기에 닿으면 끝</h3>
+          <p>새 블록이 나올 자리까지 쌓이면 게임이 끝납니다. 10줄을 지울 때마다 레벨이 오르고 블록이 빨라집니다.</p>
+        </li>
+      </ol>
+    </section>
+
+    <!-- 조작법 -->
+    <section id="controls" class="section">
+      <h2>조작법</h2>
+      <p class="section-lead">PC는 키보드로, 휴대폰은 보드 위 스와이프나 화면 아래 버튼으로 조작합니다.</p>
+      <div class="controls">
+        <div class="control-card">
+          <h3><svg class="icon" aria-hidden="true"><use href="#i-keyboard"/></svg>키보드</h3>
+          <dl class="control-list">
+            <dt><kbd>←</kbd><kbd>→</kbd></dt><dd>좌우 이동 (누르고 있으면 반복)</dd>
+            <dt><kbd>↓</kbd></dt><dd>소프트 드롭 (한 칸씩 빠르게)</dd>
+            <dt><kbd>↑</kbd><kbd>X</kbd></dt><dd>시계 방향 회전</dd>
+            <dt><kbd>Z</kbd></dt><dd>반시계 방향 회전</dd>
+            <dt><kbd>Space</kbd></dt><dd>하드 드롭 (바로 바닥까지)</dd>
+            <dt><kbd>C</kbd><kbd>Shift</kbd></dt><dd>홀드 (블록 보관·교체)</dd>
+            <dt><kbd>P</kbd><kbd>Esc</kbd></dt><dd>일시정지 / 계속</dd>
+            <dt><kbd>M</kbd></dt><dd>배경음악 켜기 / 끄기</dd>
+            <dt><kbd>B</kbd></dt><dd>배경음악 곡 바꾸기 (일시정지 중)</dd>
+            <dt><kbd>Enter</kbd></dt><dd>시작 / 계속 / 다시 시작</dd>
+          </dl>
+        </div>
+        <div class="control-card">
+          <h3><svg class="icon" aria-hidden="true"><use href="#i-phone"/></svg>휴대폰 · 태블릿</h3>
+          <dl class="control-list">
+            <dt><span class="gesture">탭</span></dt><dd>회전</dd>
+            <dt><span class="gesture">좌우로 밀기</span></dt><dd>이동 (민 거리만큼 칸 이동)</dd>
+            <dt><span class="gesture">아래로 밀기</span></dt><dd>소프트 드롭</dd>
+            <dt><span class="gesture">아래로 튕기기</span></dt><dd>하드 드롭</dd>
+            <dt><span class="gesture">위로 튕기기</span></dt><dd>홀드</dd>
+            <dt><span class="gesture">아래 버튼</span></dt><dd>홀드 · 회전 · 일시정지 · 이동 · 드롭을 버튼으로도 할 수 있습니다</dd>
+          </dl>
+        </div>
+      </div>
+    </section>
+
+    <!-- 점수와 레벨 -->
+    <section id="score" class="section">
+      <h2>점수와 레벨</h2>
+      <p class="section-lead">줄을 지운 점수에는 현재 레벨을 곱합니다.</p>
+      <div class="table-wrap">
+        <table class="score-table">
+          <thead>
+            <tr><th scope="col">동작</th><th scope="col">점수</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>1줄 지우기</td><td>100 × 레벨</td></tr>
+            <tr><td>2줄 동시에</td><td>300 × 레벨</td></tr>
+            <tr><td>3줄 동시에</td><td>500 × 레벨</td></tr>
+            <tr><td>4줄 동시에</td><td>800 × 레벨</td></tr>
+            <tr><td>소프트 드롭</td><td>1칸당 1점</td></tr>
+            <tr><td>하드 드롭</td><td>1칸당 2점</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <ul class="rules">
+        <li>10줄을 지울 때마다 레벨이 1 오릅니다. 레벨 1은 1초에 한 칸, 레벨 13부터는 0.1초에 한 칸 떨어집니다.</li>
+        <li>블록이 바닥에 닿아도 0.5초 동안은 움직이거나 돌릴 수 있습니다.</li>
+        <li>홀드는 블록 하나당 한 번만 쓸 수 있습니다.</li>
+      </ul>
+    </section>
+
+    <!-- 기능 -->
+    <section class="section">
+      <h2>이런 것도 됩니다</h2>
+      <div class="features">
+        <div class="feature">
+          <svg class="icon" aria-hidden="true"><use href="#i-eye"/></svg>
+          <h3>고스트 & 다음 블록</h3>
+          <p>떨어질 자리와 다음에 나올 블록을 미리 보고 계획하세요.</p>
+        </div>
+        <div class="feature">
+          <svg class="icon" aria-hidden="true"><use href="#i-hold"/></svg>
+          <h3>홀드</h3>
+          <p>지금 블록을 보관해 두고 필요할 때 꺼내 씁니다.</p>
+        </div>
+        <div class="feature">
+          <svg class="icon" aria-hidden="true"><use href="#i-music"/></svg>
+          <h3>배경음악 2곡</h3>
+          <p>일시정지 화면에서 곡을 고를 수 있습니다. 레벨이 오르면 음악도 빨라집니다.</p>
+        </div>
+        <div class="feature">
+          <svg class="icon" aria-hidden="true"><use href="#i-trophy"/></svg>
+          <h3>최고 점수 저장</h3>
+          <p>최고 점수는 이 브라우저에 저장되어 다음에도 남아 있습니다.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 마지막 플레이 유도 -->
+    <section class="cta">
+      <h2>준비됐나요?</h2>
+      <a class="btn btn-filled btn-large" href="game.html?autostart">
+        <svg class="icon" aria-hidden="true"><use href="#i-play"/></svg>지금 플레이
+      </a>
+    </section>
+  </main>
+
+  <footer class="footer container">
+    HTML · CSS · JavaScript만으로 만든 실습 프로젝트 · 아이콘: Material Icons (Apache-2.0)
+  </footer>
+
+  <script>
+    // 최고 점수가 있으면 히어로 아래에 보여 준다(게임과 같은 저장 키를 읽기만 한다)
+    try {
+      const best = Number(localStorage.getItem('block-stacker.highScore')) || 0;
+      if (best > 0) {
+        document.getElementById('best-score-value').textContent = best.toLocaleString('ko-KR');
+        document.getElementById('best-score').hidden = false;
+      }
+    } catch {
+      /* 저장소를 읽을 수 없으면 표시하지 않는다 */
+    }
+  </script>
+</body>
+</html>
