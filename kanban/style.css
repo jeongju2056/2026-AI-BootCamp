@@ -1,0 +1,660 @@
+/* Material Design 3(M3) 스타일을 라이브러리 없이 CSS로 적용한다
+   색·크기 값은 M3 기본(baseline) 테마 기준 */
+
+/* ===== 디자인 토큰 ===== */
+:root {
+  /* 색 */
+  --md-primary: #6750a4;
+  --md-on-primary: #ffffff;
+  --md-secondary-container: #e8def8;
+  --md-on-secondary-container: #1d192b;
+  --md-surface: #fef7ff;
+  --md-surface-container-low: #f7f2fa;
+  --md-surface-container: #f3edf7;
+  --md-surface-container-high: #ece6f0;
+  --md-on-surface: #1d1b20;
+  --md-on-surface-variant: #49454f;
+  --md-outline: #79747e;
+  --md-outline-variant: #cac4d0;
+  --md-error: #b3261e;
+
+  /* 열 구분색 */
+  --status-todo: #79747e;
+  --status-doing: #f0a202;
+  --status-done: #2e9e5b;
+
+  /* 그림자 단계(elevation) */
+  --md-elevation-1: 0 1px 2px 0 rgba(0, 0, 0, 0.3), 0 1px 3px 1px rgba(0, 0, 0, 0.15);
+  --md-elevation-2: 0 1px 2px 0 rgba(0, 0, 0, 0.3), 0 2px 6px 2px rgba(0, 0, 0, 0.15);
+  --md-elevation-3: 0 1px 3px 0 rgba(0, 0, 0, 0.3), 0 4px 8px 3px rgba(0, 0, 0, 0.15);
+
+  /* 모서리 반경(shape) */
+  --md-shape-xs: 4px;
+  --md-shape-md: 12px;
+  --md-shape-lg: 16px;
+  --md-shape-full: 999px;
+
+  /* 상태 표시층(state layer) 투명도 */
+  --md-state-hover: 0.08;
+  --md-state-pressed: 0.12;
+
+  --font: Roboto, "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font);
+  font-size: 14px;
+  background: var(--md-surface);
+  color: var(--md-on-surface);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* hidden 속성이 display를 지정한 요소(.board 등)에도 항상 이기게 한다 */
+[hidden] {
+  display: none !important;
+}
+
+.icon {
+  flex: none;
+  width: 24px;
+  height: 24px;
+  fill: currentColor;
+}
+
+/* ===== 상단 앱 바 ===== */
+.app-bar {
+  background: var(--md-primary);
+  color: var(--md-on-primary);
+  box-shadow: var(--md-elevation-2);
+}
+
+.app-bar-inner {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  height: 64px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+.app-bar-title {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 400;
+  line-height: 28px;
+}
+
+/* 앱 바 오른쪽: 로그인한 이메일 + 로그아웃 */
+.user-menu {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  margin-left: auto;
+}
+
+.user-email {
+  overflow: hidden;
+  font-size: 14px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  opacity: 0.9;
+}
+
+/* Text button(M3): 배경 없이 글자만. 앱 바 위라 On Primary 색 */
+.text-button {
+  position: relative;
+  flex: none;
+  min-height: 40px;
+  padding: 0 12px;
+  overflow: hidden;
+  border: 0;
+  border-radius: var(--md-shape-full);
+  background: transparent;
+  color: inherit;
+  font-family: var(--font);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.1px;
+  cursor: pointer;
+}
+
+.text-button::after,
+.outlined-button::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: currentColor;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 150ms ease;
+}
+
+@media (hover: hover) {
+  .text-button:hover::after,
+  .outlined-button:hover::after {
+    opacity: var(--md-state-hover);
+  }
+}
+
+.text-button:active::after,
+.outlined-button:active::after {
+  opacity: var(--md-state-pressed);
+}
+
+/* 좁은 화면에서는 이메일을 숨기고 로그아웃만 */
+@media (max-width: 479px) {
+  .user-email {
+    display: none;
+  }
+}
+
+/* ===== 로그인 화면 ===== */
+.login {
+  display: grid;
+  place-items: start center;
+  padding: 32px 16px;
+}
+
+.login-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  max-width: 400px;
+  padding: 24px;
+  background: var(--md-surface-container-low);
+  border-radius: var(--md-shape-lg);
+  box-shadow: var(--md-elevation-1);
+}
+
+.login-title {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 32px;
+}
+
+.login-help {
+  margin: 0 0 4px;
+  color: var(--md-on-surface-variant);
+  line-height: 20px;
+}
+
+/* Outlined button(M3) */
+.outlined-button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 0 24px;
+  overflow: hidden;
+  border: 1px solid var(--md-outline);
+  border-radius: var(--md-shape-full);
+  background: transparent;
+  color: var(--md-primary);
+  font-family: var(--font);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.1px;
+  cursor: pointer;
+}
+
+.provider-button {
+  min-height: 48px; /* 손가락으로 누르기 쉽게 */
+  color: var(--md-on-surface);
+}
+
+.provider-icon {
+  flex: none;
+  width: 20px;
+  height: 20px;
+}
+
+.outlined-button:focus-visible,
+.text-button:focus-visible {
+  outline: 3px solid var(--md-primary);
+  outline-offset: 2px;
+}
+
+button:disabled {
+  opacity: 0.38;
+  cursor: default;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--md-on-surface-variant);
+  font-size: 12px;
+}
+
+.divider::before,
+.divider::after {
+  content: "";
+  flex: 1;
+  border-top: 1px solid var(--md-outline-variant);
+}
+
+.email-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.field-label {
+  color: var(--md-on-surface-variant);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+/* Outlined text field: 카드 추가 입력창과 같은 모양 */
+.field input {
+  height: 48px;
+  padding: 0 15px;
+  border: 1px solid var(--md-outline);
+  border-radius: var(--md-shape-xs);
+  background: transparent;
+  color: var(--md-on-surface);
+  font-family: var(--font);
+  font-size: 16px; /* 16px 미만이면 iOS가 입력할 때 화면을 확대한다 */
+}
+
+.field input:focus {
+  outline: none;
+  padding: 0 14px;
+  border: 2px solid var(--md-primary);
+}
+
+.email-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.email-actions > * {
+  flex: 1;
+  justify-content: center;
+}
+
+.login-message {
+  margin: 0;
+  padding: 12px;
+  border-radius: var(--md-shape-xs);
+  background: var(--md-secondary-container);
+  color: var(--md-on-secondary-container);
+  line-height: 20px;
+}
+
+.login-message[data-kind="error"] {
+  background: #f9dedc; /* M3 Error Container */
+  color: #410e0b;      /* M3 On Error Container */
+}
+
+/* ===== 스낵바(M3 Snackbar): 화면 아래 잠깐 보이는 안내 ===== */
+.snackbar {
+  position: fixed;
+  left: 50%;
+  bottom: 16px;
+  z-index: 1100;
+  width: max-content;
+  max-width: calc(100vw - 32px);
+  padding: 14px 16px;
+  transform: translateX(-50%);
+  border-radius: var(--md-shape-xs);
+  background: #322f35; /* M3 Inverse Surface */
+  color: #f5eff7;      /* M3 Inverse On Surface */
+  box-shadow: var(--md-elevation-3);
+  font-size: 14px;
+  line-height: 20px;
+}
+
+/* ===== 보드: 모바일 우선(한 열로 세로로 쌓기) ===== */
+.board {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+/* 태블릿·PC: 세 열을 나란히 */
+@media (min-width: 768px) {
+  .board {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: start;
+    padding-top: 24px;
+  }
+}
+
+/* ===== 열 ===== */
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+  padding: 16px 12px 12px;
+  background: var(--md-surface-container);
+  border-top: 4px solid var(--status-todo);
+  border-radius: var(--md-shape-lg);
+}
+
+.column[data-status="doing"] { border-top-color: var(--status-doing); }
+.column[data-status="done"]  { border-top-color: var(--status-done); }
+
+.column-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 4px;
+}
+
+.column-title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: 0.15px;
+}
+
+/* 개수 배지 */
+.count {
+  min-width: 24px;
+  height: 20px;
+  padding: 0 8px;
+  border-radius: var(--md-shape-full);
+  background: var(--md-secondary-container);
+  color: var(--md-on-secondary-container);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 20px;
+  text-align: center;
+}
+
+/* ===== 카드 목록 ===== */
+.card-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 56px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* 카드가 하나도 없을 때(놓일 자리 표시가 들어오면 비지 않으므로 사라진다) */
+.card-list:empty::before {
+  content: "카드가 없습니다";
+  display: grid;
+  place-items: center;
+  min-height: 56px;
+  border: 1px dashed var(--md-outline-variant);
+  border-radius: var(--md-shape-md);
+  color: var(--md-on-surface-variant);
+  font-size: 14px;
+}
+
+/* ===== 카드(Elevated card) ===== */
+.card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: 56px;
+  padding: 4px 0;
+  background: var(--md-surface-container-low);
+  border-radius: var(--md-shape-md);
+  box-shadow: var(--md-elevation-1);
+  cursor: grab;
+  transition: box-shadow 150ms ease;
+  /* 길게 눌러 끌 때 글자 선택·복사 메뉴가 뜨지 않게 */
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+/* 상태 표시층: 카드 위에 옅은 색을 덮는다 */
+.card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--md-on-surface);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 150ms ease;
+}
+
+@media (hover: hover) {
+  .card:hover {
+    box-shadow: var(--md-elevation-2);
+  }
+  .card:hover::before {
+    opacity: var(--md-state-hover);
+  }
+}
+
+.card-title {
+  position: relative; /* 상태 표시층보다 위에 */
+  flex: 1;
+  min-width: 0;
+  padding: 8px 0;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 0.5px;
+  overflow-wrap: anywhere;
+}
+
+/* ===== 아이콘 버튼(손잡이, 삭제) =====
+   터치 영역은 44px, 보이는 원은 40px */
+.card-handle,
+.card-delete {
+  position: relative;
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--md-on-surface-variant);
+}
+
+.card-handle::after,
+.card-delete::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--md-shape-full);
+  background: currentColor;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 150ms ease;
+}
+
+/* 손잡이: 터치는 여기서만 끌기 시작한다.
+   touch-action: none이 없으면 브라우저가 손가락 움직임을 스크롤로 가로챈다 */
+.card-handle {
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+.card-delete {
+  cursor: pointer;
+}
+
+@media (hover: hover) {
+  .card-handle:hover::after,
+  .card-delete:hover::after {
+    opacity: var(--md-state-hover);
+  }
+  .card-delete:hover {
+    color: var(--md-error);
+  }
+}
+
+.card-handle:active::after,
+.card-delete:active::after {
+  opacity: var(--md-state-pressed);
+}
+
+.card-delete:focus-visible {
+  outline: none;
+  color: var(--md-error);
+}
+
+.card-delete:focus-visible::after {
+  opacity: var(--md-state-pressed);
+}
+
+/* ===== 드래그 중 ===== */
+body.is-dragging-board {
+  cursor: grabbing;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* 터치로 본문을 길게 누르는 중(끌기 시작 전): 눌린 상태 표시 */
+.card.is-pressing::before {
+  opacity: var(--md-state-pressed);
+}
+
+/* 원래 자리에 남아 있는 카드 */
+.card.is-dragging {
+  opacity: 0.38;
+  box-shadow: none;
+}
+
+/* 포인터를 따라다니는 카드. pointer-events: none이어야 elementFromPoint가 그 아래 열을 찾는다 */
+.card.ghost {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  margin: 0;
+  pointer-events: none;
+  cursor: grabbing;
+  box-shadow: var(--md-elevation-3);
+}
+
+/* 놓일 자리 표시 */
+.placeholder {
+  border: 2px dashed var(--md-primary);
+  border-radius: var(--md-shape-md);
+  background: rgba(103, 80, 164, 0.08);
+}
+
+/* ===== 추가 폼 ===== */
+.add-form {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Outlined text field */
+.add-form input {
+  flex: 1;
+  min-width: 0;
+  height: 48px;
+  padding: 0 15px;
+  border: 1px solid var(--md-outline);
+  border-radius: var(--md-shape-xs);
+  background: transparent;
+  color: var(--md-on-surface);
+  font-family: var(--font);
+  font-size: 16px; /* 16px 미만이면 iOS가 입력할 때 화면을 확대한다 */
+  letter-spacing: 0.5px;
+}
+
+.add-form input::placeholder {
+  color: var(--md-on-surface-variant);
+}
+
+@media (hover: hover) {
+  .add-form input:hover {
+    border-color: var(--md-on-surface);
+  }
+}
+
+.add-form input:focus {
+  outline: none;
+  padding: 0 14px; /* 테두리가 2px로 두꺼워져도 글자 위치가 그대로이게 */
+  border: 2px solid var(--md-primary);
+}
+
+/* Filled button */
+.filled-button {
+  position: relative;
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 40px;
+  padding: 0 24px 0 16px;
+  overflow: hidden;
+  border: 0;
+  border-radius: var(--md-shape-full);
+  background: var(--md-primary);
+  color: var(--md-on-primary);
+  font-family: var(--font);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.1px;
+  cursor: pointer;
+}
+
+.filled-button .icon {
+  width: 18px;
+  height: 18px;
+}
+
+.filled-button::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--md-on-primary);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 150ms ease;
+}
+
+@media (hover: hover) {
+  .filled-button:hover {
+    box-shadow: var(--md-elevation-1);
+  }
+  .filled-button:hover::after {
+    opacity: var(--md-state-hover);
+  }
+}
+
+.filled-button:active::after {
+  opacity: var(--md-state-pressed);
+}
+
+.filled-button:focus-visible {
+  outline: 3px solid var(--md-primary);
+  outline-offset: 2px;
+}
